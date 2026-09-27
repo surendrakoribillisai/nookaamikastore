@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html b:version='2' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+
+<head>
+
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+
+  <title>Nookambika Store Admin</title>
+
+  <b:skin><![CDATA[
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #171717;
+    }
+
+    .admin-header {
+      background: #111;
+      color: #fff;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .admin-header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .logout-btn {
+      background: #fff;
+      color: #111;
+      border: 0;
+      padding: 9px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 65px);
+    }
+
+    .sidebar {
+      width: 230px;
+      background: #1b1b1b;
+      color: #fff;
+      padding: 20px 12px;
+    }
+
+    .sidebar button {
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      border: 0;
+      padding: 13px;
+      text-align: left;
+      border-radius: 7px;
+      cursor: pointer;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .sidebar button:hover,
+    .sidebar button.active {
+      background: #333;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      max-width: 1300px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.07);
+    }
+
+    .card small {
+      color: #777;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 8px;
+    }
+
+    .box {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.07);
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 7px;
+      margin: 7px 0 15px;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: #111;
+      color: #fff;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .secondary {
+      background: #eee;
+      color: #111;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 7px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th,
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f5f5f5;
+    }
+
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media(max-width:900px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sidebar {
+        width: 190px;
+      }
+    }
+
+    @media(max-width:600px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+      }
+
+      .sidebar button {
+        min-width: 120px;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+
+
+    .price-original { color:#888; text-decoration:line-through; margin-right:6px; }
+    .price-selling { font-size:18px; font-weight:800; color:#111; }
+    .price-off { color:#16803a; font-weight:700; margin-left:6px; }
+    .sync-note { background:#eef6ff; border:1px solid #cfe3ff; padding:10px 12px; border-radius:8px; margin:10px 0 15px; }
+
+  ]]></b:skin>
+
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+
+  <div class='login-screen' id='loginScreen'>
+
+    <div class='login-box'>
+
+      <h2>🔐 Nookambika Admin</h2>
+
+      <p>Admin Login</p>
+
+      <label>Username</label>
+      <input id='adminUsername' placeholder='Username' type='text'/>
+
+      <label>Password</label>
+      <input id='adminPassword' placeholder='Password' type='password'/>
+
+      <button class='primary' onclick='adminLogin()' style='width:100%;'>
+        Login
+      </button>
+
+      <div class='message' id='loginMessage'/>
+
+    </div>
+
+  </div>
+
+
+  <!-- ADMIN -->
+
+  <div class='hidden' id='adminPanel'>
+
+    <div class='admin-header'>
+
+      <h1>🛍&#65039; Nookambika Store Admin</h1>
+
+      <button class='logout-btn' onclick='logout()'>
+        Logout
+      </button>
+
+    </div>
+
+
+    <div class='layout'>
+
+      <div class='sidebar'>
+
+        <button class='active' onclick='showSection(&quot;dashboard&quot;,this)'>
+          📊 Dashboard
+        </button>
+
+        <button onclick='showSection(&quot;products&quot;,this)'>
+          📦 Products
+        </button>
+
+        <button onclick='showSection(&quot;addProduct&quot;,this)'>
+          &#10133; Add Product
+        </button>
+
+        <button onclick='showSection(&quot;categories&quot;,this)'>
+          🏷&#65039; Categories
+        </button>
+
+        <button onclick='showSection(&quot;orders&quot;,this)'>
+          🛒 Orders
+        </button>
+
+        <button onclick='showSection(&quot;settlements&quot;,this)'>
+          💰 Settlements
+        </button>
+
+      </div>
+
+
+      <div class='content'>
+
+
+        <!-- DASHBOARD -->
+
+        <div class='section active' id='dashboard'>
+
+          <h2>Dashboard</h2>
+
+          <div class='cards'>
+
+            <div class='card'>
+              <small>Products</small>
+              <strong id='productCount'>0</strong>
+            </div>
+
+            <div class='card'>
+              <small>Orders</small>
+              <strong id='orderCount'>0</strong>
+            </div>
+
+            <div class='card'>
+              <small>Pending Orders</small>
+              <strong id='pendingCount'>0</strong>
+            </div>
+
+            <div class='card'>
+              <small>Settlements</small>
+              <strong id='settlementCount'>0</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <div class='section' id='products'>
+
+          <h2>Products</h2>
+
+          <div class='box'>
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Original / Selling Price</th>
+                  <th>Category</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id='productsTable'/>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- ADD PRODUCT -->
+
+        <div class='section' id='addProduct'>
+
+          <h2>Add Product</h2>
+          <p style='color:#666;'>Example: Original &#8377;799 + 28% discount = Selling Price &#8377;575.28</p>
+
+          <div class='box'>
+
+            <label>Product Name</label>
+            <input id='productName' placeholder='Product name' type='text'/>
+
+            <label>Original Price (&#8377;)</label>
+            <input id='productPrice' min='0' oninput='updateSellingPreview()' placeholder='Example: 799' step='0.01' type='number'/>
+
+            <label>Discount (%)</label>
+            <input id='productDiscount' max='100' min='0' oninput='updateSellingPreview()' placeholder='Example: 28' step='0.01' type='number'/>
+
+            <div id='sellingPreview' style='background:#f5f5f5;padding:12px;border-radius:8px;margin:5px 0 15px;'>
+              Selling Price: <strong>&#8377;0.00</strong>
+            </div>
+
+            <label>Offer Price (optional)</label>
+            <input id='productOfferPrice' min='0' placeholder='Special offer price' step='0.01' type='number'/>
+
+
+            <label>Offer Text</label>
+            <input id='productOfferText' placeholder='Example: Special Offer' type='text'/>
+
+            <label>Offer Start Date</label>
+            <input id='offerStartDate' type='date'/>
+
+            <label>Offer Start Time</label>
+            <input id='offerStartTime' type='time'/>
+
+            <label>Offer End Date</label>
+            <input id='offerEndDate' type='date'/>
+
+            <label>Offer End Time</label>
+            <input id='offerEndTime' type='time'/>
+
+            <label>Image URL</label>
+            <input id='productImage' placeholder='https://...' type='url'/>
+
+            <label>Category</label>
+            <select id='productCategory'>
+              <option value=''>Select Category</option>
+            </select>
+
+            <label>Description</label>
+            <textarea id='productDescription' placeholder='Product description'/>
+
+            <button class='primary' onclick='addProduct()'>
+              Add Product
+            </button>
+
+            <button class='secondary' onclick='clearProductForm()'>
+              Clear
+            </button>
+
+            <p class='message' id='productMessage'/>
+
+          </div>
+
+        </div>
+
+
+        <!-- CATEGORIES -->
+
+        <div class='section' id='categories'>
+
+          <h2>Categories</h2>
+
+          <div class='box'>
+
+            <label>Category Name</label>
+
+            <input id='categoryName' placeholder='Enter category name' type='text'/>
+
+            <button class='primary' onclick='addCategory()'>
+              &#10133; Add Category
+            </button>
+
+            <p class='message' id='categoryMessage'/>
+
+          </div>
+
+          <div class='box'>
+
+            <h3>Existing Categories</h3>
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id='categoriesTable'/>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- ORDERS -->
+
+        <div class='section' id='orders'>
+
+          <h2>Orders</h2>
+
+          <div class='box'>
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Mobile</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody id='ordersTable'/>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <!-- SETTLEMENTS -->
+
+        <div class='section' id='settlements'>
+
+          <h2>Settlements</h2>
+
+          <div class='box'>
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Settlement ID</th>
+                  <th>Order ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody id='settlementsTable'/>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- EDIT PRODUCT MODAL -->
+
+  <div class='hidden' id='editProductModal' style='position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:3000;overflow:auto;padding:30px;'>
+    <div class='box' style='max-width:650px;margin:30px auto;'>
+      <h2>Edit Product</h2>
+
+      <input id='editProductId' type='hidden'/>
+
+      <label>Product Name</label>
+      <input id='editProductName' type='text'/>
+
+      <label>Original Price (&#8377;)</label>
+      <input id='editProductPrice' min='0' oninput='updateEditSellingPreview()' step='0.01' type='number'/>
+
+      <label>Discount (%)</label>
+      <input id='editProductDiscount' max='100' min='0' oninput='updateEditSellingPreview()' step='0.01' type='number'/>
+
+      <div id='editSellingPreview' style='background:#f5f5f5;padding:12px;border-radius:8px;margin:5px 0 15px;'>
+        Selling Price: <strong>&#8377;0.00</strong>
+      </div>
+
+      <label>Offer Price</label>
+      <input id='editProductOfferPrice' min='0' type='number'/>
+
+      <label>Offer Text</label>
+      <input id='editProductOfferText' type='text'/>
+
+      <label>Offer Start Date</label>
+      <input id='editOfferStartDate' type='date'/>
+
+      <label>Offer Start Time</label>
+      <input id='editOfferStartTime' type='time'/>
+
+      <label>Offer End Date</label>
+      <input id='editOfferEndDate' type='date'/>
+
+      <label>Offer End Time</label>
+      <input id='editOfferEndTime' type='time'/>
+
+      <label>Image URL</label>
+      <input id='editProductImage' type='url'/>
+
+      <label>Category</label>
+      <select id='editProductCategory'>
+        <option value=''>Select Category</option>
+      </select>
+
+      <label>Description</label>
+      <textarea id='editProductDescription'/>
+
+      <p class='message' id='editProductMessage'/>
+
+      <button class='primary' onclick='saveEditedProduct()'>
+        Save Changes
+      </button>
+
+      <button class='secondary' onclick='closeEditProduct()'>
+        Cancel
+      </button>
+    </div>
+  </div>
+
+
+  <script type='text/javascript'>
+  //<![CDATA[
+
+    var products =
+      JSON.parse(localStorage.getItem('nookambikaProducts') || '[]');
+
+    var orders =
+      JSON.parse(localStorage.getItem('nookambikaOrders') || '[]');
+
+    var settlements =
+      JSON.parse(localStorage.getItem('nookambikaSettlements') || '[]');
+
+    var categories =
+      JSON.parse(localStorage.getItem('nookambikaCategories') || '[]');
+
+
+    function showSection(id,button) {
+
+      var sections =
+        document.querySelectorAll('.section');
+
+      for (var i = 0; i < sections.length; i++) {
+        sections[i].classList.remove('active');
+      }
+
+      document.getElementById(id)
+        .classList.add('active');
+
+      var buttons =
+        document.querySelectorAll('.sidebar button');
+
+      for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove('active');
+      }
+
+      button.classList.add('active');
+
+      if (id === 'products') {
+        loadProducts();
+      }
+
+      if (id === 'categories') {
+        loadCategories();
+      }
+
+      if (id === 'addProduct') {
+        loadCategoryDropdown();
+      }
+
+      if (id === 'orders') {
+        loadOrders();
+      }
+
+      if (id === 'settlements') {
+        loadSettlements();
+      }
+
+    }
+
+
+
+    function addCategory() {
+
+      var input =
+        document.getElementById('categoryName');
+
+      var name =
+        input.value.trim();
+
+      if (!name) {
+
+        document.getElementById('categoryMessage').innerHTML =
+          '❌ Enter a category name.';
+
+        return;
+      }
+
+      categories =
+        JSON.parse(
+          localStorage.getItem('nookambikaCategories') || '[]'
+        );
+
+      var exists =
+        categories.some(function(category) {
+
+          return category.name.toLowerCase() ===
+            name.toLowerCase();
+
+        });
+
+      if (exists) {
+
+        document.getElementById('categoryMessage').innerHTML =
+          '❌ Category already exists.';
+
+        return;
+      }
+
+      categories.push({
+        id: Date.now(),
+        name: name
+      });
+
+      localStorage.setItem(
+        'nookambikaCategories',
+        JSON.stringify(categories)
+      );
+
+      input.value = '';
+
+      document.getElementById('categoryMessage').innerHTML =
+        '✅ Category added successfully.';
+
+      loadCategories();
+      loadCategoryDropdown();
+
+    }
+
+
+    function loadCategories() {
+
+      categories =
+        JSON.parse(
+          localStorage.getItem('nookambikaCategories') || '[]'
+        );
+
+      var html = '';
+
+      if (categories.length === 0) {
+
+        html =
+          '<tr>' +
+          '<td colspan="2">No categories yet.</td>' +
+          '</tr>';
+
+      } else {
+
+        for (var i = 0; i < categories.length; i++) {
+
+          html +=
+            '<tr>' +
+
+            '<td>' +
+            escapeHTML(categories[i].name) +
+            '</td>' +
+
+            '<td>' +
+
+            '<button class="primary" ' +
+            'onclick="deleteCategory(' +
+            categories[i].id +
+            ')">' +
+
+            'Delete' +
+
+            '</button>' +
+
+            '</td>' +
+
+            '</tr>';
+
+        }
+
+      }
+
+      document.getElementById('categoriesTable').innerHTML =
+        html;
+
+    }
+
+
+    function deleteCategory(id) {
+
+      if (!confirm('Delete this category?')) {
+        return;
+      }
+
+      categories =
+        categories.filter(function(category) {
+
+          return category.id !== id;
+
+        });
+
+      localStorage.setItem(
+        'nookambikaCategories',
+        JSON.stringify(categories)
+      );
+
+      loadCategories();
+      loadCategoryDropdown();
+
+    }
+
+
+    function loadCategoryDropdown() {
+
+      categories =
+        JSON.parse(
+          localStorage.getItem('nookambikaCategories') || '[]'
+        );
+
+      var select =
+        document.getElementById('productCategory');
+
+      if (!select) {
+        return;
+      }
+
+      var currentValue = select.value;
+
+      var html =
+        '<option value="">Select Category</option>';
+
+      for (var i = 0; i < categories.length; i++) {
+
+        html +=
+          '<option value="' +
+          escapeHTML(categories[i].name) +
+          '">' +
+          escapeHTML(categories[i].name) +
+          '</option>';
+
+      }
+
+      select.innerHTML = html;
+
+      if (currentValue) {
+        select.value = currentValue;
+      }
+
+    }
+
+
+    function addProduct() {
+
+      var name =
+        document.getElementById('productName').value.trim();
+
+      var price =
+        document.getElementById('productPrice').value;
+
+      var image =
+        document.getElementById('productImage').value.trim();
+
+      var category =
+        document.getElementById('productCategory').value.trim();
+
+      var discount =
+        Number(document.getElementById('productDiscount').value || 0);
+
+      var offerPriceValue =
+        document.getElementById('productOfferPrice').value.trim();
+
+      var offerPrice =
+        offerPriceValue === '' ? null : Number(offerPriceValue);
+
+      var offerText =
+        document.getElementById('productOfferText').value.trim();
+
+      var offerStartDate =
+        document.getElementById('offerStartDate').value;
+
+      var offerStartTime =
+        document.getElementById('offerStartTime').value;
+
+      var offerEndDate =
+        document.getElementById('offerEndDate').value;
+
+      var offerEndTime =
+        document.getElementById('offerEndTime').value;
+
+      var offerStart =
+        offerStartDate && offerStartTime
+          ? offerStartDate + 'T' + offerStartTime
+          : '';
+
+      var offerEnd =
+        offerEndDate && offerEndTime
+          ? offerEndDate + 'T' + offerEndTime
+          : '';
+
+      if (discount < 0 || discount > 100) {
+        document.getElementById('productMessage').innerHTML =
+          '❌ Discount must be between 0 and 100.';
+        return;
+      }
+
+      if (offerPrice !== null && offerPrice < 0) {
+        document.getElementById('productMessage').innerHTML =
+          '❌ Offer price cannot be negative.';
+        return;
+      }
+
+      if (offerStart && offerEnd &&
+          new Date(offerEnd) <= new Date(offerStart)) {
+        document.getElementById('productMessage').innerHTML =
+          '❌ Offer end date/time must be after the start date/time.';
+        return;
+      }
+
+      var description =
+        document.getElementById('productDescription').value.trim();
+
+
+      if (!name || !price) {
+
+        document.getElementById('productMessage').innerHTML =
+          '❌ Product name and original price are required.';
+
+        return;
+
+      }
+
+
+      var product = {
+
+        id: Date.now(),
+
+        name: name,
+
+        price: Number(price),
+
+        image: image,
+
+        category: category,
+
+        discount: discount,
+
+        offerPrice: offerPrice,
+
+        offerText: offerText,
+
+        offerStart: offerStart,
+
+        offerEnd: offerEnd,
+
+        description: description,
+
+        createdAt: new Date().toISOString()
+
+      };
+
+
+      products.push(product);
+
+      localStorage.setItem(
+        'nookambikaProducts',
+        JSON.stringify(products)
+      );
+
+
+      document.getElementById('productMessage').innerHTML =
+        '✅ Product added successfully.';
+
+
+      clearProductForm();
+      loadCategoryDropdown();
+
+      loadDashboard();
+
+    }
+
+
+    function clearProductForm() {
+
+      document.getElementById('productName').value = '';
+
+      document.getElementById('productPrice').value = '';
+
+      document.getElementById('productImage').value = '';
+
+      document.getElementById('productCategory').value = '';
+
+      document.getElementById('productDiscount').value = '';
+
+      document.getElementById('productOfferPrice').value = '';
+
+      document.getElementById('productOfferText').value = '';
+
+      document.getElementById('offerStartDate').value = '';
+
+      document.getElementById('offerStartTime').value = '';
+
+      document.getElementById('offerEndDate').value = '';
+
+      document.getElementById('offerEndTime').value = '';
+
+      document.getElementById('productDescription').value = '';
+      updateSellingPreview();
+
+    }
+
+
+    function formatPrice(value) {
+      var n = Number(value || 0);
+      return n.toFixed(2);
+    }
+
+
+    function calculateSellingPrice(originalPrice, discount) {
+      var original = Number(originalPrice || 0);
+      var d = Number(discount || 0);
+
+      if (d > 0 && d <= 100) {
+        return Math.round((original - (original * d / 100)) * 100) / 100;
+      }
+
+      return original;
+    }
+
+
+    function updateSellingPreview() {
+      var price = document.getElementById('productPrice').value;
+      var discount = document.getElementById('productDiscount').value;
+      var selling = calculateSellingPrice(price, discount);
+      var el = document.getElementById('sellingPreview');
+
+      if (Number(discount) > 0 && Number(price) > 0) {
+        el.innerHTML =
+          'Selling Price: <del>₹' + formatPrice(price) + '</del> ' +
+          '<strong>₹' + formatPrice(selling) + '</strong> ' +
+          '<small>' + Number(discount) + '% OFF</small>';
+      } else {
+        el.innerHTML =
+          'Selling Price: <strong>₹' + formatPrice(price) + '</strong>';
+      }
+    }
+
+
+    function updateEditSellingPreview() {
+      var price = document.getElementById('editProductPrice').value;
+      var discount = document.getElementById('editProductDiscount').value;
+      var selling = calculateSellingPrice(price, discount);
+      var el = document.getElementById('editSellingPreview');
+
+      if (Number(discount) > 0 && Number(price) > 0) {
+        el.innerHTML =
+          'Selling Price: <del>₹' + formatPrice(price) + '</del> ' +
+          '<strong>₹' + formatPrice(selling) + '</strong> ' +
+          '<small>' + Number(discount) + '% OFF</small>';
+      } else {
+        el.innerHTML =
+          'Selling Price: <strong>₹' + formatPrice(price) + '</strong>';
+      }
+    }
+
+
+    function isOfferActive(product) {
+
+      if (product.offerPrice !== null &&
+          product.offerPrice !== undefined &&
+          product.offerPrice !== '' &&
+          product.offerStart &&
+          product.offerEnd) {
+
+        var now = new Date();
+        var start = new Date(product.offerStart);
+        var end = new Date(product.offerEnd);
+
+        return now >= start && now <= end;
+      }
+
+      return false;
+    }
+
+
+    function getDiscountPrice(product) {
+      return calculateSellingPrice(product.price, product.discount);
+    }
+
+
+    function getCurrentProductPrice(product) {
+
+      if (isOfferActive(product)) {
+        return Number(product.offerPrice);
+      }
+
+      if (Number(product.discount || 0) > 0) {
+        return getDiscountPrice(product);
+      }
+
+      return Number(product.price || 0);
+    }
+
+
+    function loadProducts() {
+
+      products =
+        JSON.parse(localStorage.getItem('nookambikaProducts') || '[]');
+
+      var html = '';
+
+      if (products.length === 0) {
+
+        html =
+          '<tr><td colspan="4">No products yet.</td></tr>';
+
+      } else {
+
+        for (var i = 0; i < products.length; i++) {
+
+          html +=
+            '<tr>' +
+            '<td>' + escapeHTML(products[i].name) + '</td>' +
+            '<td>' +
+            (isOfferActive(products[i])
+              ? '<small>Original: </small><del>₹' + formatPrice(products[i].price) + '</del><br/>' +
+                '<small>Offer/Selling: </small><strong>₹' + formatPrice(getCurrentProductPrice(products[i])) + '</strong>' +
+                (products[i].offerText
+                  ? '<br/><small>' + escapeHTML(products[i].offerText) + '</small>'
+                  : '')
+              : Number(products[i].discount || 0) > 0
+                ? '<small>Original: </small><del>₹' + formatPrice(products[i].price) + '</del><br/>' +
+                  '<small>Selling: </small><strong>₹' + formatPrice(getDiscountPrice(products[i])) + '</strong>' +
+                  '<br/><small>' +
+                  escapeHTML(String(products[i].discount)) +
+                  '% OFF</small>'
+                : '<small>Original: </small>₹' + formatPrice(products[i].price) + '<br/><small>Selling: </small><strong>₹' + formatPrice(products[i].price) + '</strong>') +
+            '</td>' +
+            '<td>' + escapeHTML(products[i].category || '-') + '</td>' +
+            '<td>' +
+            '<button class="primary" onclick="editProduct(' +
+            products[i].id +
+            ')">Edit</button> ' +
+            '<button class="secondary" onclick="deleteProduct(' +
+            products[i].id +
+            ')">Delete</button>' +
+            '</td>' +
+            '</tr>';
+
+        }
+
+      }
+
+      document.getElementById('productsTable').innerHTML = html;
+
+    }
+
+
+    function editProduct(id) {
+
+      products =
+        JSON.parse(
+          localStorage.getItem('nookambikaProducts') || '[]'
+        );
+
+      var product = null;
+
+      for (var i = 0; i < products.length; i++) {
+        if (String(products[i].id) === String(id)) {
+          product = products[i];
+          break;
+        }
+      }
+
+      if (!product) {
+        alert('Product not found.');
+        return;
+      }
+
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('editProductName').value = product.name || '';
+      document.getElementById('editProductPrice').value = product.price || '';
+      document.getElementById('editProductDiscount').value =
+        product.discount || '';
+      document.getElementById('editProductOfferPrice').value =
+        product.offerPrice === null ||
+        product.offerPrice === undefined ? '' : product.offerPrice;
+      document.getElementById('editProductOfferText').value =
+        product.offerText || '';
+
+      var start = product.offerStart || '';
+      var end = product.offerEnd || '';
+
+      if (start) {
+        document.getElementById('editOfferStartDate').value =
+          start.substring(0, 10);
+        document.getElementById('editOfferStartTime').value =
+          start.substring(11, 16);
+      } else {
+        document.getElementById('editOfferStartDate').value = '';
+        document.getElementById('editOfferStartTime').value = '';
+      }
+
+      if (end) {
+        document.getElementById('editOfferEndDate').value =
+          end.substring(0, 10);
+        document.getElementById('editOfferEndTime').value =
+          end.substring(11, 16);
+      } else {
+        document.getElementById('editOfferEndDate').value = '';
+        document.getElementById('editOfferEndTime').value = '';
+      }
+
+      document.getElementById('editProductImage').value =
+        product.image || '';
+
+      loadEditCategoryDropdown(product.category || '');
+
+      document.getElementById('editProductDescription').value =
+        product.description || '';
+
+      document.getElementById('editProductMessage').innerHTML = '';
+      updateEditSellingPreview();
+
+      document.getElementById('editProductModal')
+        .classList.remove('hidden');
+    }
+
+
+    function loadEditCategoryDropdown(selected) {
+
+      categories =
+        JSON.parse(
+          localStorage.getItem('nookambikaCategories') || '[]'
+        );
+
+      var select =
+        document.getElementById('editProductCategory');
+
+      var html =
+        '<option value="">Select Category</option>';
+
+      for (var i = 0; i < categories.length; i++) {
+
+        html +=
+          '<option value="' +
+          escapeHTML(categories[i].name) +
+          '">' +
+          escapeHTML(categories[i].name) +
+          '</option>';
+
+      }
+
+      select.innerHTML = html;
+      select.value = selected || '';
+    }
+
+
+    function saveEditedProduct() {
+
+      var id =
+        document.getElementById('editProductId').value;
+
+      var name =
+        document.getElementById('editProductName').value.trim();
+
+      var price =
+        document.getElementById('editProductPrice').value;
+
+      var discount =
+        Number(
+          document.getElementById('editProductDiscount').value || 0
+        );
+
+      var offerPriceValue =
+        document.getElementById('editProductOfferPrice').value.trim();
+
+      var offerPrice =
+        offerPriceValue === '' ? null : Number(offerPriceValue);
+
+      var offerText =
+        document.getElementById('editProductOfferText').value.trim();
+
+      var startDate =
+        document.getElementById('editOfferStartDate').value;
+
+      var startTime =
+        document.getElementById('editOfferStartTime').value;
+
+      var endDate =
+        document.getElementById('editOfferEndDate').value;
+
+      var endTime =
+        document.getElementById('editOfferEndTime').value;
+
+      var offerStart =
+        startDate && startTime
+          ? startDate + 'T' + startTime
+          : '';
+
+      var offerEnd =
+        endDate && endTime
+          ? endDate + 'T' + endTime
+          : '';
+
+      if (!name || !price) {
+        document.getElementById('editProductMessage').innerHTML =
+          '❌ Product name and original price are required.';
+        return;
+      }
+
+      if (discount < 0 || discount > 100) {
+        document.getElementById('editProductMessage').innerHTML =
+          '❌ Discount must be between 0 and 100.';
+        return;
+      }
+
+      if (offerPrice !== null && offerPrice < 0) {
+        document.getElementById('editProductMessage').innerHTML =
+          '❌ Offer price cannot be negative.';
+        return;
+      }
+
+      if (offerStart && offerEnd &&
+          new Date(offerEnd) <= new Date(offerStart)) {
+        document.getElementById('editProductMessage').innerHTML =
+          '❌ Offer end must be after offer start.';
+        return;
+      }
+
+      products =
+        JSON.parse(
+          localStorage.getItem('nookambikaProducts') || '[]'
+        );
+
+      var found = false;
+
+      for (var i = 0; i < products.length; i++) {
+
+        if (String(products[i].id) === String(id)) {
+
+          products[i].name = name;
+          products[i].price = Number(price);
+          products[i].discount = discount;
+          products[i].offerPrice = offerPrice;
+          products[i].offerText = offerText;
+          products[i].offerStart = offerStart;
+          products[i].offerEnd = offerEnd;
+          products[i].image =
+            document.getElementById('editProductImage').value.trim();
+          products[i].category =
+            document.getElementById('editProductCategory').value;
+          products[i].description =
+            document.getElementById('editProductDescription').value.trim();
+          products[i].updatedAt =
+            new Date().toISOString();
+
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        document.getElementById('editProductMessage').innerHTML =
+          '❌ Product not found.';
+        return;
+      }
+
+      localStorage.setItem(
+        'nookambikaProducts',
+        JSON.stringify(products)
+      );
+
+      closeEditProduct();
+      loadProducts();
+      loadDashboard();
+
+      alert('✅ Product updated successfully.');
+    }
+
+
+    function closeEditProduct() {
+      document.getElementById('editProductModal')
+        .classList.add('hidden');
+    }
+
+
+    function deleteProduct(id) {
+
+      if (!confirm('Delete this product?')) {
+        return;
+      }
+
+      products =
+        products.filter(function(product) {
+          return product.id !== id;
+        });
+
+      localStorage.setItem(
+        'nookambikaProducts',
+        JSON.stringify(products)
+      );
+
+      loadProducts();
+
+      loadDashboard();
+
+    }
+
+
+    function loadOrders() {
+
+      orders =
+        JSON.parse(localStorage.getItem('nookambikaOrders') || '[]');
+
+      var html = '';
+
+      if (orders.length === 0) {
+
+        html =
+          '<tr><td colspan="5">No orders yet.</td></tr>';
+
+      } else {
+
+        for (var i = 0; i < orders.length; i++) {
+
+          html +=
+            '<tr>' +
+            '<td>' + escapeHTML(String(orders[i].id || '-')) + '</td>' +
+            '<td>' + escapeHTML(orders[i].customer || '-') + '</td>' +
+            '<td>' + escapeHTML(orders[i].mobile || '-') + '</td>' +
+            '<td>₹' + (orders[i].total || 0) + '</td>' +
+            '<td>' +
+            '<select onchange="changeOrderStatus(' +
+            i +
+            ',this.value)">' +
+            '<option>Pending</option>' +
+            '<option>Confirmed</option>' +
+            '<option>Packed</option>' +
+            '<option>Shipped</option>' +
+            '<option>Delivered</option>' +
+            '<option>Cancelled</option>' +
+            '<option>Returned</option>' +
+            '</select>' +
+            '</td>' +
+            '</tr>';
+
+        }
+
+      }
+
+      document.getElementById('ordersTable').innerHTML = html;
+
+    }
+
+
+    function changeOrderStatus(index,status) {
+
+      orders[index].status = status;
+
+      localStorage.setItem(
+        'nookambikaOrders',
+        JSON.stringify(orders)
+      );
+
+      loadDashboard();
+
+    }
+
+
+    function loadSettlements() {
+
+      settlements =
+        JSON.parse(
+          localStorage.getItem('nookambikaSettlements') || '[]'
+        );
+
+      var html = '';
+
+      if (settlements.length === 0) {
+
+        html =
+          '<tr><td colspan="4">No settlements yet.</td></tr>';
+
+      } else {
+
+        for (var i = 0; i < settlements.length; i++) {
+
+          html +=
+            '<tr>' +
+            '<td>' +
+            escapeHTML(String(settlements[i].id || '-')) +
+            '</td>' +
+            '<td>' +
+            escapeHTML(String(settlements[i].orderId || '-')) +
+            '</td>' +
+            '<td>₹' +
+            (settlements[i].amount || 0) +
+            '</td>' +
+            '<td>' +
+            escapeHTML(settlements[i].status || 'Pending') +
+            '</td>' +
+            '</tr>';
+
+        }
+
+      }
+
+      document.getElementById('settlementsTable').innerHTML = html;
+
+    }
+
+
+    function loadDashboard() {
+
+      products =
+        JSON.parse(localStorage.getItem('nookambikaProducts') || '[]');
+
+      orders =
+        JSON.parse(localStorage.getItem('nookambikaOrders') || '[]');
+
+      settlements =
+        JSON.parse(
+          localStorage.getItem('nookambikaSettlements') || '[]'
+        );
+
+
+      document.getElementById('productCount').innerHTML =
+        products.length;
+
+      document.getElementById('orderCount').innerHTML =
+        orders.length;
+
+      var pending = 0;
+
+      for (var i = 0; i < orders.length; i++) {
+
+        if (
+          !orders[i].status ||
+          orders[i].status === 'Pending'
+        ) {
+          pending++;
+        }
+
+      }
+
+      document.getElementById('pendingCount').innerHTML =
+        pending;
+
+      document.getElementById('settlementCount').innerHTML =
+        settlements.length;
+
+    }
+
+
+    function escapeHTML(value) {
+
+      return String(value)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;');
+
+    }
+
+
+    updateSellingPreview();
+    /* ===== SUPABASE CONNECTED ADMIN ===== */
+    var NOOK_SUPABASE_URL = "https://hjgxzpfbyevisssuteps.supabase.co";
+    var NOOK_ADMIN_LOGIN = "https://hjgxzpfbyevisssuteps.supabase.co/functions/v1/admin-login";
+    var NOOK_ADMIN_PRODUCTS = "https://hjgxzpfbyevisssuteps.supabase.co/functions/v1/admin-products";
+    var nookAdminToken = sessionStorage.getItem('nookambikaAdminToken') || '';
+    var nookAdminName = sessionStorage.getItem('nookambikaAdminName') || '';
+
+    function supaAdminRequest(method, body, resource) {
+      var options = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + nookAdminToken
+        }
+      };
+      if (method === 'GET') {
+        return fetch(NOOK_ADMIN_PRODUCTS + '?resource=' + encodeURIComponent(resource || 'products'), options)
+          .then(async function(r) {
+            var data = await r.json().catch(function(){ return {}; });
+            if (!r.ok) throw new Error(data.error || ('Request failed: ' + r.status));
+            return data;
+          });
+      }
+      if (body) {
+        body.resource = resource || body.resource || 'products';
+        options.body = JSON.stringify(body);
+      }
+      return fetch(NOOK_ADMIN_PRODUCTS, options).then(async function(r) {
+        var data = await r.json().catch(function(){ return {}; });
+        if (!r.ok) throw new Error(data.error || ('Request failed: ' + r.status));
+        return data;
+      });
+    }
+
+    function connectedShowAdmin() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+      loadDashboard();
+      loadCategories();
+      loadCategoryDropdown();
+    }
+
+    async function adminLogin() {
+      var username = document.getElementById('adminUsername').value.trim();
+      var password = document.getElementById('adminPassword').value;
+      var msg = document.getElementById('loginMessage');
+
+      if (!username || !password) {
+        msg.innerHTML = '❌ Enter username and password.';
+        return;
+      }
+
+      msg.innerHTML = '⏳ Checking login...';
+
+      try {
+        var response = await fetch(NOOK_ADMIN_LOGIN, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=UTF-8'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
+
+        var raw = await response.text();
+        var data = {};
+
+        try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+          throw new Error('Invalid response from Supabase (HTTP ' + response.status + ').');
+        }
+
+        console.log('admin-login HTTP:', response.status, data);
+
+        if (!response.ok) {
+          throw new Error(
+            data.message ||
+            data.error ||
+            ('Login failed (HTTP ' + response.status + ')')
+          );
+        }
+
+        if (!data.success) {
+          msg.innerHTML =
+            '❌ ' +
+            escapeHTML(data.message || 'Invalid username or password.');
+          return;
+        }
+
+        if (!data.token) {
+          throw new Error('Login succeeded but no session token was returned.');
+        }
+
+        nookAdminToken = data.token;
+        nookAdminName = data.admin && data.admin.username
+          ? data.admin.username
+          : username;
+
+        sessionStorage.setItem(
+          'nookambikaAdminToken',
+          nookAdminToken
+        );
+
+        sessionStorage.setItem(
+          'nookambikaAdminName',
+          nookAdminName
+        );
+
+        msg.innerHTML = '✅ Login successful.';
+        connectedShowAdmin();
+
+      } catch (error) {
+        console.error('Nookambika admin-login error:', error);
+
+        var m = error && error.message
+          ? error.message
+          : String(error);
+
+        if (
+          m === 'Failed to fetch' ||
+          m === 'Load failed' ||
+          m === 'NetworkError when attempting to fetch resource.'
+        ) {
+          m =
+            'Browser could not complete the cross-origin request. ' +
+            'Check the Edge Function CORS response.';
+        }
+
+        msg.innerHTML =
+          '❌ ' + escapeHTML(m);
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('nookambikaAdminToken');
+      sessionStorage.removeItem('nookambikaAdminName');
+      nookAdminToken = '';
+      location.reload();
+    }
+
+    function checkLogin() {
+      if (nookAdminToken) {
+        connectedShowAdmin();
+      }
+    }
+
+    function apiProductFromForm(prefix) {
+      var p = prefix === 'edit' ? 'editProduct' : 'product';
+      var startDate = document.getElementById(prefix === 'edit' ? 'editOfferStartDate' : 'offerStartDate').value;
+      var startTime = document.getElementById(prefix === 'edit' ? 'editOfferStartTime' : 'offerStartTime').value;
+      var endDate = document.getElementById(prefix === 'edit' ? 'editOfferEndDate' : 'offerEndDate').value;
+      var endTime = document.getElementById(prefix === 'edit' ? 'editOfferEndTime' : 'offerEndTime').value;
+      var offerValue = document.getElementById(prefix === 'edit' ? 'editProductOfferPrice' : 'productOfferPrice').value.trim();
+      var categoryValue = document.getElementById(prefix === 'edit' ? 'editProductCategory' : 'productCategory').value;
+      var categoryId = categoryValue ? Number(categoryValue) : null;
+      return {
+        id: prefix === 'edit' ? document.getElementById('editProductId').value : undefined,
+        name: document.getElementById(prefix === 'edit' ? 'editProductName' : 'productName').value.trim(),
+        price: Number(document.getElementById(prefix === 'edit' ? 'editProductPrice' : 'productPrice').value || 0),
+        discount: Number(document.getElementById(prefix === 'edit' ? 'editProductDiscount' : 'productDiscount').value || 0),
+        offerPrice: offerValue === '' ? null : Number(offerValue),
+        offerText: document.getElementById(prefix === 'edit' ? 'editProductOfferText' : 'productOfferText').value.trim(),
+        offerStart: startDate && startTime ? startDate + 'T' + startTime : null,
+        offerEnd: endDate && endTime ? endDate + 'T' + endTime : null,
+        image: document.getElementById(prefix === 'edit' ? 'editProductImage' : 'productImage').value.trim(),
+        categoryId: categoryId,
+        description: document.getElementById(prefix === 'edit' ? 'editProductDescription' : 'productDescription').value.trim()
+      };
+    }
+
+    function addProduct() {
+      var p = apiProductFromForm('add');
+      var msg = document.getElementById('productMessage');
+      if (!p.name || !p.price) { msg.innerHTML='❌ Product name and original price are required.'; return; }
+      if (p.discount < 0 || p.discount > 100) { msg.innerHTML='❌ Discount must be between 0 and 100.'; return; }
+      if (p.offerStart && p.offerEnd && new Date(p.offerEnd) <= new Date(p.offerStart)) { msg.innerHTML='❌ Offer end must be after start.'; return; }
+      msg.innerHTML='Saving to main store...';
+      supaAdminRequest('POST',{resource:'products',product:p}).then(function(){
+        msg.innerHTML='✅ Product added to the main store.';
+        clearProductForm();
+        loadProducts(); loadDashboard();
+      }).catch(function(err){ msg.innerHTML='❌ '+escapeHTML(err.message); });
+    }
+
+    function loadProducts() {
+      supaAdminRequest('GET',null,'products').then(function(data){
+        products = data || [];
+        var html='';
+        if(!products.length){ html='<tr><td colspan="4">No products yet.</td></tr>'; }
+        else products.forEach(function(p){
+          var original=Number(p.price||0), discount=Number(p.discount||0);
+          var selling=discount>0 ? Math.round((original-original*discount/100)*100)/100 : original;
+          var active=p.offer_price!==null && p.offer_price!==undefined && p.offer_start && p.offer_end && new Date()>=new Date(p.offer_start) && new Date()<=new Date(p.offer_end);
+          var current=active?Number(p.offer_price):selling;
+          html += '<tr><td>'+escapeHTML(p.name)+'</td><td><del>₹'+formatPrice(original)+'</del> <strong>₹'+formatPrice(current)+'</strong>'+(discount>0&&!active?' <small>'+discount+'% OFF</small>':'')+(active?' <small>Offer</small>':'')+'</td><td>'+escapeHTML(p.categories?p.categories.name:'-')+'</td><td><button class="primary" onclick="editProduct('+p.id+')">Edit</button> <button class="secondary" onclick="deleteProduct('+p.id+')">Delete</button></td></tr>';
+        });
+        document.getElementById('productsTable').innerHTML=html;
+      }).catch(function(err){ document.getElementById('productsTable').innerHTML='<tr><td colspan="4">❌ '+escapeHTML(err.message)+'</td></tr>'; });
+    }
+
+    function addCategory() {
+      var name=document.getElementById('categoryName').value.trim();
+      if(!name){document.getElementById('categoryMessage').innerHTML='❌ Enter a category name.';return;}
+      supaAdminRequest('POST',{resource:'categories',name:name}).then(function(){
+        document.getElementById('categoryName').value='';
+        document.getElementById('categoryMessage').innerHTML='✅ Category added.';
+        loadCategories(); loadCategoryDropdown();
+      }).catch(function(err){document.getElementById('categoryMessage').innerHTML='❌ '+escapeHTML(err.message);});
+    }
+
+    function loadCategories() {
+      supaAdminRequest('GET',null,'categories').then(function(data){
+        categories=data||[];
+        var html=categories.length?categories.map(function(c){return '<tr><td>'+escapeHTML(c.name)+'</td><td><button class="secondary" onclick="deleteCategory('+c.id+')">Delete</button></td></tr>';}).join(''):'<tr><td colspan="2">No categories yet.</td></tr>';
+        var t=document.getElementById('categoriesTable'); if(t)t.innerHTML=html;
+        loadCategoryDropdown();
+      }).catch(function(err){var t=document.getElementById('categoriesTable');if(t)t.innerHTML='<tr><td colspan="2">❌ '+escapeHTML(err.message)+'</td></tr>';});
+    }
+
+    function loadCategoryDropdown() {
+      var s=document.getElementById('productCategory');
+      var es=document.getElementById('editProductCategory');
+      function fill(el){if(!el)return;var current=el.value;el.innerHTML='<option value="">Select Category</option>'+(categories||[]).map(function(c){return '<option value="'+c.id+'">'+escapeHTML(c.name)+'</option>';}).join('');if(current)el.value=current;}
+      fill(s); fill(es);
+    }
+
+    function deleteCategory(id) {
+      if(!confirm('Delete this category?'))return;
+      supaAdminRequest('DELETE',{resource:'categories',id:id}).then(function(){loadCategories();loadProducts();}).catch(function(err){alert(err.message);});
+    }
+
+    function editProduct(id) {
+      supaAdminRequest('GET',null,'products').then(function(data){
+        products=data||[]; var p=products.find(function(x){return String(x.id)===String(id);});
+        if(!p){alert('Product not found.');return;}
+        document.getElementById('editProductId').value=p.id;
+        document.getElementById('editProductName').value=p.name||'';
+        document.getElementById('editProductPrice').value=p.price||'';
+        document.getElementById('editProductDiscount').value=p.discount||'';
+        document.getElementById('editProductOfferPrice').value=p.offer_price==null?'':p.offer_price;
+        document.getElementById('editProductOfferText').value=p.offer_text||'';
+        var s=p.offer_start||'', e=p.offer_end||'';
+        document.getElementById('editOfferStartDate').value=s?s.substring(0,10):'';
+        document.getElementById('editOfferStartTime').value=s?s.substring(11,16):'';
+        document.getElementById('editOfferEndDate').value=e?e.substring(0,10):'';
+        document.getElementById('editOfferEndTime').value=e?e.substring(11,16):'';
+        document.getElementById('editProductImage').value=p.image_url||'';
+        loadCategoryDropdown();
+        document.getElementById('editProductCategory').value=p.category_id||'';
+        document.getElementById('editProductDescription').value=p.description||'';
+        updateEditSellingPreview();
+        document.getElementById('editProductModal').classList.remove('hidden');
+      }).catch(function(err){alert(err.message);});
+    }
+
+    function saveEditedProduct() {
+      var p=apiProductFromForm('edit'); var msg=document.getElementById('editProductMessage');
+      if(!p.name||!p.price){msg.innerHTML='❌ Product name and original price are required.';return;}
+      if(p.discount<0||p.discount>100){msg.innerHTML='❌ Discount must be between 0 and 100.';return;}
+      if(p.offerStart&&p.offerEnd&&new Date(p.offerEnd)<=new Date(p.offerStart)){msg.innerHTML='❌ Offer end must be after start.';return;}
+      msg.innerHTML='Saving...';
+      supaAdminRequest('PUT',{resource:'products',product:p}).then(function(){msg.innerHTML='✅ Product updated.';closeEditProduct();loadProducts();loadDashboard();}).catch(function(err){msg.innerHTML='❌ '+escapeHTML(err.message);});
+    }
+
+    function deleteProduct(id) {
+      if(!confirm('Delete this product?'))return;
+      supaAdminRequest('DELETE',{resource:'products',id:id}).then(function(){loadProducts();loadDashboard();}).catch(function(err){alert(err.message);});
+    }
+
+    function loadDashboard() {
+      supaAdminRequest('GET',null,'products').then(function(p){products=p||[];document.getElementById('productCount').innerHTML=products.length;}).catch(function(){document.getElementById('productCount').innerHTML='?';});
+      fetch(NOOK_SUPABASE_URL+'/rest/v1/orders?select=id,status',{headers:{apikey:'sb_publishable_6rqyiBlM3Mcxo2kyMxXPEQ_KpcZms9g','Authorization':'Bearer '+'sb_publishable_6rqyiBlM3Mcxo2kyMxXPEQ_KpcZms9g'}}).then(function(r){return r.ok?r.json():[];}).then(function(o){orders=o||[];document.getElementById('orderCount').innerHTML=orders.length;document.getElementById('pendingCount').innerHTML=orders.filter(function(x){return !x.status||x.status==='Pending';}).length;}).catch(function(){document.getElementById('orderCount').innerHTML='0';document.getElementById('pendingCount').innerHTML='0';});
+      document.getElementById('settlementCount').innerHTML='0';
+    }
+
+    var originalShowSection = showSection;
+    function showSection(id,button){
+      originalShowSection(id,button);
+      if(id==='products')loadProducts();
+      if(id==='categories')loadCategories();
+      if(id==='addProduct')loadCategoryDropdown();
+    }
+
+    checkLogin();
+
+  //]]>
+  </script>
+
+
+  <b:section id='main' showaddelement='no'/>
+
+</body>
+
+</html>

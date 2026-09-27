@@ -1,0 +1,17 @@
+Nookambika Store - GitHub Pages
+
+1. Upload ALL files in this folder to the ROOT of the GitHub repository.
+2. Make sure index.html is directly in the repository root.
+3. GitHub -> Settings -> Pages.
+4. Source: Deploy from a branch.
+5. Branch: main (or your default branch), folder: / (root).
+6. Save.
+7. Open:
+   https://surendrakoribillisai.github.io/nookaamikastore/
+
+The root index.html loads ./store/index.html so GitHub Pages does not display README.md as the homepage.
+
+IMPORTANT:
+- Do not put Supabase service-role keys in frontend files.
+- Do not put Firebase Admin private keys in frontend files.
+- The current customer-auth/order/wishlist Edge Function files are backend templates and require server-side Firebase Admin configuration before those features are production-ready.
