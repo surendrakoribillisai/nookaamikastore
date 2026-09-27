@@ -451,7 +451,7 @@ const firebaseConfig = {
 };
 
 const SUPABASE_URL = "https://ftuouasbpexfmcndusvt.supabase.co";
-const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+const SUPABASE_KEY = "sb_publishable_-5kLaUOU6cWqplJOjGsq2g_PeH1Ft_M";
 
 /*
   Customer mobile+password auth cannot be performed by Firebase's
@@ -461,9 +461,9 @@ const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
   Set these to your secure Firebase Cloud Function / backend endpoints
   that create and verify Firebase custom-token sessions for customers.
 */
-const CUSTOMER_AUTH_URL = "PASTE_YOUR_CUSTOMER_AUTH_FUNCTION_URL_HERE";
-const CUSTOMER_ORDERS_URL = "PASTE_YOUR_CUSTOMER_ORDERS_FUNCTION_URL_HERE";
-const CUSTOMER_WISHLIST_URL = "PASTE_YOUR_CUSTOMER_WISHLIST_FUNCTION_URL_HERE";
+const CUSTOMER_AUTH_URL = "https://ftuouasbpexfmcndusvt.supabase.co/functions/v1/customer-auth";
+const CUSTOMER_ORDERS_URL = "https://ftuouasbpexfmcndusvt.supabase.co/functions/v1/customer-orders";
+const CUSTOMER_WISHLIST_URL = "https://ftuouasbpexfmcndusvt.supabase.co/functions/v1/customer-wishlist";
 
 firebase.initializeApp(firebaseConfig);
 const firebaseAuth = firebase.auth();
