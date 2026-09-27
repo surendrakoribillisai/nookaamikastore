@@ -704,7 +704,7 @@ $("loginSubmit").onclick = async () => {
   msg.textContent = "Logging in...";
   try {
     const data = await customerAuth("login", {mobile, password});
-    if (data.customToken) await firebaseAuth.signInWithCustomToken(data.customToken);
+    if (data.token) await firebaseAuth.signInWithCustomToken(data.token);
     currentCustomer = data.customer || {mobile};
     localStorage.setItem("nookambikaCustomer", JSON.stringify(currentCustomer));
     updateAccountUI();
@@ -731,8 +731,8 @@ $("registerSubmit").onclick = async () => {
 
   msg.textContent = "Creating account...";
   try {
-    const data = await customerAuth("register", {name, mobile, password});
-    if (data.customToken) await firebaseAuth.signInWithCustomToken(data.customToken);
+    const data = await customerAuth("register", {name, mobile, password, passwordConfirm: password2});
+    if (data.token) await firebaseAuth.signInWithCustomToken(data.token);
     currentCustomer = data.customer || {name, mobile};
     localStorage.setItem("nookambikaCustomer", JSON.stringify(currentCustomer));
     updateAccountUI();
